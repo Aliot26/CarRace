@@ -1,36 +1,42 @@
 package com.codecool.car_race.Vehicle;
 
 import com.codecool.car_race.Race;
-import com.codecool.car_race.Vehicle.Vehicle;
 
 
 // speed is 100km/h. If it rains, travels with 5-50km/h slower (randomly). Doesn't care about trucks.
 public class Motorcycle extends Vehicle {
-    private int motorcycleNumber = 1;
+    private final static int MAX_SPEED_IS_RAINING = 95;
+    private final static int MIN_SPEED_IS_RAINING = 50;
+    private int motorcycleNumber;
     private String name;
-    private int distanceTraveled = 0;
-    private int speed = 100;
 
 
-    public Motorcycle() {
-        this.name = createName();
+    public Motorcycle(int motorcycleNumber) {
+        this.name = createName(motorcycleNumber);
         this.distanceTraveled = 0;
     }
 
-    private String createName() {
-        name = "Motorcycle " + motorcycleNumber;
-        motorcycleNumber += 1;
+    public String getName() {
+        return name;
+    }
+
+    public int getDistanceTraveled() {
+        return distanceTraveled;
+    }
+
+    private String createName(int motorcycleNumber) {
+        this.name = "Motorcycle " + motorcycleNumber;
         return name;
     }
 
     public void prepareForLap(Race race) {
-        if (race.isRaining()) {
-            speed = (int) (Math.floor(Math.random() * (95 - 50)) + 50);
+        if (race.getIsRaining()) {
+            speed = (int) (Math.floor(Math.random() * (MAX_SPEED_IS_RAINING - MIN_SPEED_IS_RAINING)) + MIN_SPEED_IS_RAINING);
         }
     }
 
     public void moveForAnHour() {
-        distanceTraveled += speed;
+        this.distanceTraveled += speed;
 
     }
 }
