@@ -3,72 +3,73 @@ package com.codecool.car_race;
 import com.codecool.car_race.Vehicle.Car;
 import com.codecool.car_race.Vehicle.Motorcycle;
 import com.codecool.car_race.Vehicle.Truck;
+import com.codecool.car_race.Vehicle.Vehicle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Race {
     private boolean isRaining;
-
-    private List<Car> cars = new ArrayList<>();
-    private List<Motorcycle> motorcycles = new ArrayList<>();
-    private List<Truck> trucks = new ArrayList<>();
+    private List<Vehicle> vehicles;
     private static int HOURS_OF_RACE = 50;
 
     Race() {
         isRaining = false;
     }
 
-    public void listVehicles(ArrayList<Car> listOfCars, ArrayList<Motorcycle> listOfMotors, ArrayList<Truck> listOfTrucks) {
-        cars = listOfCars;
-        motorcycles = listOfMotors;
-        trucks = listOfTrucks;
+    void listVehicles(List<Vehicle> listOfVehicles) {
+        vehicles = listOfVehicles;
     }
 
     public boolean getIsRaining() {
         return isRaining;
     }
 
-    public void simulateRace(Race race) {
+    void simulateRace(Race race) {
 
         for (int i = 0; i < HOURS_OF_RACE; i++) {
             isRaining();
 
-            for (Car car : cars) {
-                car.prepareForLap(race);
-                car.moveForAnHour();
+            for (Vehicle vehicle : vehicles) {
+                vehicle.prepareForLap(race);
+                vehicle.moveForAnHour();
             }
-            for (Motorcycle motorcycle : motorcycles) {
-                motorcycle.prepareForLap(race);
-                motorcycle.moveForAnHour();
-            }
-            for (Truck truck : trucks) {
-                truck.prepareForLap(race);
-                truck.moveForAnHour();
-            }
+
         }
     }
 
-    public void printRaceResults() {
+    void printRaceResults() {
         System.out.println("RACE RESULTS");
         System.out.println("=========================================================================");
         System.out.println("Cars:");
-        for (Car car : cars) {
-            System.out.println(car.getName() + ": " + car.getDistanceTraveled() + " km(s)");
+
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle instanceof Car) {
+                System.out.println(vehicle.getName() + ": " + vehicle.getDistanceTraveled() + " km");
+            }
         }
+
         System.out.println("\n");
+        System.out.println("=========================================================================");
         System.out.println("Motorcycles:");
-        for (Motorcycle motorcycle : motorcycles) {
-            System.out.println(motorcycle.getName() + ": " + motorcycle.getDistanceTraveled() + " km(s)");
-        }
+
+        vehicles.stream()
+                .filter(item -> item instanceof Motorcycle)
+                .forEach(System.out::println);
+
+
         System.out.println("\n");
+        System.out.println("=========================================================================");
         System.out.println("Trucks:");
-        for (Truck truck : trucks) {
-            System.out.println(truck.getName() + ": " + truck.getDistanceTraveled() + " km(s)");
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle instanceof Truck) {
+                System.out.println(vehicle.getName() + ": " + vehicle.getDistanceTraveled() + " km");
+            }
         }
     }
 
-    public void isRaining() {
+   private void isRaining() {
         Weather weather = new Weather();
         if (weather.getRain()) {
             isRaining = true;
@@ -77,8 +78,12 @@ public class Race {
 
     public boolean isThereBrokenTruck() {
         boolean brokenTruck = false;
-        for (Truck truck : trucks) {
-            if (truck.getBreakdownTurnsLeft() > 0) brokenTruck = true;
+        for (Vehicle truck : vehicles) {
+            if (truck instanceof Truck) {
+                if (((Truck) truck).getBreakdownTurnsLeft() > 0) {
+                    brokenTruck = true;
+                }
+            }
         }
         return brokenTruck;
     }

@@ -7,36 +7,25 @@ import com.codecool.car_race.Race;
 public class Motorcycle extends Vehicle {
     private final static int MAX_SPEED_IS_RAINING = 95;
     private final static int MIN_SPEED_IS_RAINING = 50;
-    private int motorcycleNumber;
-    private String name;
-
 
     public Motorcycle(int motorcycleNumber) {
-        this.name = createName(motorcycleNumber);
-        this.distanceTraveled = 0;
+        setName(motorcycleNumber);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getDistanceTraveled() {
-        return distanceTraveled;
-    }
-
-    private String createName(int motorcycleNumber) {
+    private void setName(int motorcycleNumber) {
         this.name = "Motorcycle " + motorcycleNumber;
-        return name;
     }
 
     public void prepareForLap(Race race) {
         if (race.getIsRaining()) {
-            speed = (int) (Math.floor(Math.random() * (MAX_SPEED_IS_RAINING - MIN_SPEED_IS_RAINING)) + MIN_SPEED_IS_RAINING);
+            speed = generateSpeed(MAX_SPEED_IS_RAINING,MIN_SPEED_IS_RAINING);
+        }else {
+            speed = DEFAULT_SPEED;
         }
     }
 
-    public void moveForAnHour() {
-        this.distanceTraveled += speed;
-
+    @Override
+    public String toString() {
+        return this.getName() + ": " + this.getDistanceTraveled() + " km";
     }
 }

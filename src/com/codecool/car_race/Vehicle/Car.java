@@ -11,27 +11,15 @@ public class Car extends Vehicle {
     private final static int MAX_SPEED = 110;
     private final static int MIN_SPEED = 80;
     private final static int SPEED_WHEN_BROKEN_TRUCK = 75;
-    private List<String> names = new ArrayList<>(Arrays.asList("Crest", "Temperament",
+    private static List<String> names = new ArrayList<>(Arrays.asList("Crest", "Temperament",
             "Crusader", "Phantom", "Paragon", "Desire", "Adventure", "Blade",
-            "Surge", "Stardust","Buffalo", "Roamer", "Utopia", "Pulse",
-            "Centaur", "Pyre", "Treasure","Apex", "Tempest",  "Aurora"));
-    private int speed;
-    private String name;
+            "Surge", "Stardust", "Buffalo", "Roamer", "Utopia", "Pulse",
+            "Centaur", "Pyre", "Treasure", "Apex", "Tempest", "Aurora"));
 
     public Car() {
-        this.speed = generateSpeed();
+        this.speed = generateSpeed(MAX_SPEED, MIN_SPEED);
         this.name = generateCarName();
-        this.distanceTraveled = 0;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getDistanceTraveled() {
-        return distanceTraveled;
-    }
-
 
     private String generateCarName() {
         Random r = new Random();
@@ -43,19 +31,11 @@ public class Car extends Vehicle {
     }
 
 
-    private int generateSpeed() {
-        return (int) (Math.floor(Math.random() * (MAX_SPEED - MIN_SPEED)) + MIN_SPEED);
-    }
-
-
     public void prepareForLap(Race race) {
         if (race.isThereBrokenTruck()) {
             speed = SPEED_WHEN_BROKEN_TRUCK;
+        } else {
+            speed = generateSpeed(MAX_SPEED, MIN_SPEED);
         }
-    }
-
-
-    public void moveForAnHour() {
-            distanceTraveled += speed;
     }
 }

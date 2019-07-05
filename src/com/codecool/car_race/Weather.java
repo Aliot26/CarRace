@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 public class Weather {
-    private boolean isRaining;
+    private boolean isRaining = false;
 
     public Weather() {
         setRaining();
