@@ -12,14 +12,14 @@ public class Truck extends Vehicle {
     private Set<String> numbersExist = new HashSet<>();
 
     public Truck() {
-        generateName();
+        setName();
     }
 
     public int getBreakdownTurnsLeft() {
         return breakdownTurnsLeft;
     }
 
-    private void generateName() {
+    private void setName() {
         do {
             name = String.valueOf((int) (Math.floor(Math.random() * (1000 - 1)) + 1));// because this may be name of the track
             numbersExist.add(name);
